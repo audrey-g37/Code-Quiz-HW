@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Quiz: Math Concepts</title>
   </head>
   <body>
       <header>
@@ -12,21 +12,21 @@
           <div id="timer">Time: 120 seconds</div>
       </header>
       <section>
-        <h1 id = "quiz-main-questions">
-            Coding Quiz Challenge
+        <h1 id = "quiz-questions">
+            Math Concepts Challenge
         </h1>
-        <p id = "quiz-answer-selection">
-            Try to answer the following code-related questions within the time limit.  Keep in mind that incorrect answers will deduct your time by ten seconds!  When all questions have been answered, the remaining time is considered your score.
-
+        <p id = "quiz-answer-options">
+            Try to answer the following questions within the time limit.  Keep in mind that <span> incorrect</span> answers will deduct your time by ten seconds!  When all questions have been answered, the remaining time is your score.  If the timer gets to zero seconds, your score will be 0.
         </p>
+        <ul id = "answer-list">
+        </ul>
         <button id = "start-button"> Start Quiz</button>
 
-
-        </form>
       </section>
       <section id = "answer-feedback">
       </section>
 
   </body>
-  <!-- <script src="script.js"></script> -->
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="script.js"></script>
 </html>
