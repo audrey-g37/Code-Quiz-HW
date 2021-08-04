@@ -1,6 +1,6 @@
 var startBtn = $("#start-button");
-var h1El = $("#quiz-questions");
-var pEl = $("#quiz-answer-options");
+var h1El = $("#main-text");
+var pEl = $("#instructions");
 
 var answerListEl = $("#answer-list");
 
@@ -12,13 +12,17 @@ var answerBtn4 = $("<button>");
 var accessTimer = $("#timer");
 var timer;
 
+var userInputBox = $("#form");
+var userInitials = "";
+
+var currentIndex = -1;
 var questions = [
-  (question0 = {
+  {
     question: "What is the graph of a quadratic function called?",
     possibleAnswers: ["line", "V", "integral", "parabola"],
     correctAnswer: "parabola",
-  }),
-  (question1 = {
+  },
+  {
     question: "What does the quadratic formula solve for?",
     possibleAnswers: [
       "a coordinate-pair",
@@ -27,12 +31,12 @@ var questions = [
       "x-intercepts",
     ],
     correctAnswer: "x-intercepts",
-  }),
-  (question2 = {
+  },
+  {
     question: "Which is not an integer?",
     possibleAnswers: ["4", "-5", "1", "0.5"],
     correctAnswer: "0.5",
-  }),
+  },
 ];
 
 startBtn.on("click", startQuiz);
@@ -40,21 +44,22 @@ startBtn.on("click", startQuiz);
 function startQuiz(event) {
   event.preventDefault();
   startBtn.remove();
-  pEl.remove();
+  pEl.hide();
   countdown();
-  nextQuestion(0);
+  nextQuestion();
   answerListEl.append(answerBtn1);
   answerListEl.append(answerBtn2);
   answerListEl.append(answerBtn3);
   answerListEl.append(answerBtn4);
 }
 
-function nextQuestion(q) {
-  h1El.text(questions[q].question);
-  answerBtn1.text(questions[q].possibleAnswers[0]);
-  answerBtn2.text(questions[q].possibleAnswers[1]);
-  answerBtn3.text(questions[q].possibleAnswers[2]);
-  answerBtn4.text(questions[q].possibleAnswers[3]);
+function nextQuestion() {
+  currentIndex++;
+  h1El.text(questions[currentIndex].question);
+  answerBtn1.text(questions[currentIndex].possibleAnswers[0]);
+  answerBtn2.text(questions[currentIndex].possibleAnswers[1]);
+  answerBtn3.text(questions[currentIndex].possibleAnswers[2]);
+  answerBtn4.text(questions[currentIndex].possibleAnswers[3]);
 }
 
 var answerOption1 = answerBtn1.on("click", answerClick);
@@ -64,7 +69,20 @@ var answerOption4 = answerBtn4.on("click", answerClick);
 
 function answerClick(event) {
   event.preventDefault();
-  nextQuestion(1);
+  if (timeRemaining === 0 || currentIndex === questions.length - 1) {
+    endQuiz();
+  } else {
+    nextQuestion();
+  }
+}
+
+function endQuiz() {
+  accessTimer.remove();
+  h1El.text("All Done!");
+  answerListEl.hide();
+  pEl.show().text("Your final score is " + timeRemaining + ".");
+  pEl.append(userInputBox);
+  userInitials;
 }
 
 var timeRemaining = 119;

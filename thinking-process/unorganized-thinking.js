@@ -40,3 +40,11 @@ localStorage.setItem();
 //     clearInterval(timer);
 //   }
 // }, 1000);
+
+//Cycle through questions...for loop??
+
+while (timeRemaining !== 0) {
+  for (var q = 1; q <= 10; q++) {
+    nextQuestion(question + q);
+  }
+}
