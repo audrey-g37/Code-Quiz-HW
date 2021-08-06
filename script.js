@@ -26,8 +26,8 @@ var currentIndex = -1;
 var questions = [
   {
     question: "What is the graph of a quadratic function called?",
-    possibleAnswers: ["line", "V", "integral", "parabola"],
-    correctAnswerIndex: 3,
+    possibleAnswers: ["line", "V", "parabola", "integral"],
+    correctAnswerIndex: 2,
   },
   {
     question: "What does the quadratic formula solve for?",
@@ -37,7 +37,7 @@ var questions = [
       "the vertex",
       "y-intercept",
     ],
-    correctAnswerIndex: 1,
+    correctAnswerIndex: 0,
   },
   {
     question: "Which is not an integer?",
@@ -60,34 +60,40 @@ function startQuiz(event) {
   answerListEl.append(answerBtn4);
 }
 
-var answerOption1 = answerBtn1.on("click", answerClick);
-var answerOption2 = answerBtn2.on("click", answerClick);
-var answerOption3 = answerBtn3.on("click", answerClick);
-var answerOption4 = answerBtn4.on("click", answerClick);
+answerBtn1.on("click", setValue(answerBtn1, 0), nextQuestion);
+answerBtn2.on("click", setValue(answerBtn2, 1), nextQuestion);
+answerBtn3.on("click", setValue(answerBtn3, 2), nextQuestion);
+answerBtn4.on("click", setValue(answerBtn4, 3), nextQuestion);
+
+function setValue(answerBtnClicked, valueToAssign) {
+  answerBtnClicked.attr("value", valueToAssign);
+}
+
+var answerOption1;
+var answerOption2;
+var answerOption3;
+var answerOption4;
 
 function nextQuestion() {
   currentIndex++;
-  h1El.text(questions[currentIndex].question);
-  answerBtn1.text(questions[currentIndex].possibleAnswers[0]);
-  answerBtn2.text(questions[currentIndex].possibleAnswers[1]);
-  answerBtn3.text(questions[currentIndex].possibleAnswers[2]);
-  answerBtn4.text(questions[currentIndex].possibleAnswers[3]);
 
-  console.log(answerOption1);
-  console.log(answerOption2);
-  console.log(answerOption3);
-  console.log(answerOption4);
-}
-
-function answerClick(event) {
-  event.preventDefault();
-  if (timeRemaining === 0 || currentIndex === questions.length - 1) {
+  if (currentIndex === questions.length) {
+    clearInterval(timer);
     endQuiz();
-  } else {
-    nextQuestion();
+    return;
   }
-}
 
+  answerOption1 = questions[currentIndex].possibleAnswers[0];
+  answerOption2 = questions[currentIndex].possibleAnswers[1];
+  answerOption3 = questions[currentIndex].possibleAnswers[2];
+  answerOption4 = questions[currentIndex].possibleAnswers[3];
+
+  h1El.text(questions[currentIndex].question);
+  answerBtn1.text(answerOption1);
+  answerBtn2.text(answerOption2);
+  answerBtn3.text(answerOption3);
+  answerBtn4.text(answerOption4);
+}
 collectInitialsFormEl.attr("id", "form").text("Your Initials: ");
 collectInitialsLabelEl.attr("for", "initials");
 collectInitialsInputEl.attr({ type: "text", id: "initials" });
@@ -116,7 +122,7 @@ function showHighscores() {
   h1El.text("Check your ranking!");
 }
 
-function storeUserInitials() {
+function storeUserInitials(event) {
   showHighscores();
   event.preventDefault();
 }
@@ -131,6 +137,7 @@ function countdown() {
     }
     if (currentTime === 0) {
       clearInterval(timer);
+      endQuiz();
     }
   }, 1000);
 }
