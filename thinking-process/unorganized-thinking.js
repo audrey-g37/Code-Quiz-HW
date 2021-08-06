@@ -48,3 +48,10 @@ while (timeRemaining !== 0) {
     nextQuestion(question + q);
   }
 }
+
+// html creating a form for user initials
+<form id = "form">
+<label for = "initials"></label>
+<input type = "text" id = "initials" name = "userInitials">
+
+</form>
