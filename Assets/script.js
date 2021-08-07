@@ -1,3 +1,5 @@
+//STILL TO DO: local storage of correct answer; incorrect answer --> time deduction; local storage user initals and score; answer feedback upon answer click; add to css file to style; update README with pics; more comments describing functionality.
+
 var startBtn = $("#start-button");
 var h1El = $("#main-text");
 var pEl = $("#instructions");
