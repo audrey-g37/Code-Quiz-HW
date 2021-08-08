@@ -8,11 +8,11 @@ A user answers multiple-choice math-related questions and the computer locally s
 
 The following image is a screenshot of the html file loaded in a browser.
 
-![Screenshot of the Website upon Loading](./Assets/Start-Quiz-Page.png)
+![Screenshot of the Website upon Loading](./Assets/images/Start-Quiz-Page.png)
 
 The following image is a screenshot of the first question, as an example.
 
-![Screenshot of the Website upon Loading](./Assets/Example-Question1.png)
+![Screenshot of the Website upon Loading](./Assets/images/Example-Question1.png)
 
 ## Link to Live Url
 

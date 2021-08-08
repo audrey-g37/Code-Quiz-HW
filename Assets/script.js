@@ -3,11 +3,11 @@
 var startBtn = $("#start-button");
 var h1El = $("#main-text");
 var pEl = $("#instructions");
+var answerListEl = $("#answer-list");
+var answerFeedbackEl = $("#answer-feedback");
 var highscoresLinkEl = $("#highscores");
 var clearHighscoresBtn = $("<button>");
 var retakeQuizBtn = $("<button>");
-
-var answerListEl = $("#answer-list");
 
 var answerBtn1 = $("<button>");
 var answerBtn2 = $("<button>");
@@ -21,8 +21,6 @@ var collectInitialsFormEl = $("<form>");
 var collectInitialsLabelEl = $("<label>");
 var collectInitialsInputEl = $("<input>");
 var collectInitialsBtnEl = $("<button>");
-
-var userInitials = "";
 
 var currentIndex = 0;
 var questions = [
@@ -63,7 +61,7 @@ function startQuiz(event) {
 }
 
 function setValue(answerBtnClicked, valueToAssign) {
-  answerBtnClicked.attr("value", valueToAssign);
+  answerBtnClicked.attr({ value: valueToAssign, class: "answerOptions" });
 }
 
 setValue(answerBtn1, 0);
@@ -71,10 +69,10 @@ setValue(answerBtn2, 1);
 setValue(answerBtn3, 2);
 setValue(answerBtn4, 3);
 
-var btn1Clicked = answerBtn1.on("click", checkAnswer);
-var btn2Clicked = answerBtn2.on("click", checkAnswer);
-var btn3Clicked = answerBtn3.on("click", checkAnswer);
-var btn4Clicked = answerBtn4.on("click", checkAnswer);
+answerBtn1.on("click", checkAnswer);
+answerBtn2.on("click", checkAnswer);
+answerBtn3.on("click", checkAnswer);
+answerBtn4.on("click", checkAnswer);
 
 var answerOption1;
 var answerOption2;
@@ -82,10 +80,14 @@ var answerOption3;
 var answerOption4;
 
 function checkAnswer() {
-  if ($(this)[0].value == questions[currentIndex].correctAnswerIndex) {
-    console.log("I clicked the right button!");
+  if (currentIndex === questions.length) {
+    endQuiz();
+    clearInterval(timer);
+    return;
+  } else if ($(this)[0].value == questions[currentIndex].correctAnswerIndex) {
+    answerFeedbackEl.text("Correct!");
   } else {
-    console.log("no correct button clicked");
+    answerFeedbackEl.text("Wrong Answer!");
   }
   currentIndex++;
   nextQuestion();
@@ -94,8 +96,8 @@ function checkAnswer() {
 
 function nextQuestion() {
   if (currentIndex === questions.length) {
-    clearInterval(timer);
     endQuiz();
+    clearInterval(timer);
     return;
   }
 
@@ -121,26 +123,36 @@ var collectUserInitials = collectInitialsFormEl.append(
   collectInitialsBtnEl
 );
 
+var finalScore;
+
 function endQuiz() {
   accessTimer.remove();
   h1El.text("All Done!");
-  answerListEl.hide();
+  answerListEl.empty();
+  answerFeedbackEl.empty();
   pEl.show().text("Your final score is " + timeRemaining + ".");
   pEl.append(collectUserInitials);
+  finalScore = timeRemaining;
+  return finalScore;
 }
 
-collectInitialsBtnEl.on("click", storeUserInitials);
+collectInitialsBtnEl.on("click", showHighscores);
+
+var userInitials = "";
 
 function showHighscores() {
-  startBtn.empty();
+  userInitials = collectInitialsInputEl.val();
+  localStorage.setItem(userInitials, finalScore);
   collectUserInitials.empty();
-  pEl.empty();
   h1El.text("Check your ranking!");
-}
-
-function storeUserInitials(event) {
-  showHighscores();
-  event.preventDefault();
+  var listOfScores = $("<li>");
+  for (var i = 0; i < localStorage.length; i++) {
+    pEl
+      .append(listOfScores)
+      .text(
+        localStorage.key(i) + " scored " + localStorage.getItem(userInitials, i)
+      );
+  }
 }
 
 var timeRemaining = 119;
